@@ -120,19 +120,4 @@ class InputWindow:
 				system.gridColor[3],
 			)
 
-			# Trails checkbox
-			_, system.showTrails = imgui.checkbox("Trails", system.showTrails)
-
-			# Trails length input
-			_, system.trailLength = imgui.drag_int("Trails length", system.trailLength, 1, 5, 100)
-
-			# Trails color input
-			_, system.trailColor = imgui.color_edit4(
-				"Trails color",
-				system.trailColor[0],
-				system.trailColor[1],
-				system.trailColor[2],
-				system.trailColor[3],
-			)
-
 		imgui.end()

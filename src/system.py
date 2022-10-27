@@ -20,9 +20,6 @@ class System:
 		self.radiusNormalization = 0.0
 		self.showGrid = False
 		self.gridColor = [0.1, 0.1, 0.1, 1.0]
-		self.showTrails = True
-		self.trailLength = 20
-		self.trailColor = [0.5, 0.5, 0.5, 0.5]
 
 		self.meanRadius = 0.0
 
@@ -72,14 +69,13 @@ class System:
 		if self.objects.__len__() < 1:
 			return
 		
-		trailLength = self.trailLength if self.showTrails else 0
 		# The first object is the center of the system and should be drawn first
-		self.objects[0].render(drawList, windowSize, self.systemScale, self.radiusScale, self.radiusNormalization, self.meanRadius, trailLength, self.trailColor)
+		self.objects[0].render(drawList, windowSize, self.systemScale, self.radiusScale, self.radiusNormalization, self.meanRadius)
 
 		# Draw other objects
 		for i in range(1, self.objects.__len__()):
-			self.objects[i].orbit.update(self.date, trailLength)
-			self.objects[i].render(drawList, windowSize, self.systemScale, self.radiusScale, self.radiusNormalization, self.meanRadius, trailLength, self.trailColor)
+			self.objects[i].orbit.update(self.date)
+			self.objects[i].render(drawList, windowSize, self.systemScale, self.radiusScale, self.radiusNormalization, self.meanRadius)
 
 
 class Planet:
@@ -91,35 +87,11 @@ class Planet:
 		self.color = color
 		self.orbit = orbit
 	
-	def render(self, drawList, windowSize, systemScale, radiusScale, radiusNormalization, meanRadius, trailLength, trailColor):
+	def render(self, drawList, windowSize, systemScale, radiusScale, radiusNormalization, meanRadius):
 		if not self.visible:
 			return
 
 		systemScale /= _KM_PER_PIXEL
-		
-		# Draw trail
-		if trailLength > 0:
-			trailColor = imgui.get_color_u32_rgba(
-				trailColor[0],
-				trailColor[1],
-				trailColor[2],
-				trailColor[3]
-			)
-			lastPos = None
-			if trailLength > 0:
-				for point in self.orbit.trails:
-					pos = [ point[0] * systemScale + windowSize[0] // 2, point[1] * systemScale + windowSize[1] // 2 ]
-					if lastPos is None:
-						lastPos = pos
-						continue
-					drawList.add_line(
-						lastPos[0],
-						lastPos[1],
-						pos[0],
-						pos[1],
-						trailColor
-						)
-					lastPos = pos
 
 		# Compute radius
 		# Normalize radius
@@ -148,20 +120,11 @@ class Orbit:
 		self.velocity = velocity
 		self.eccentricity = eccentricity
 
-		self.trails = []
 		self.x = 0.0
 		self.y = 0.0
 
-	def update(self, date, trailLength):
+	def update(self, date):
 		# Calculate position
 		currentAngle = (date.getTotalDays() / self.period) % 2 * math.pi
 		self.x = self.semiMajorAxis * math.cos(currentAngle)
 		self.y = self.semiMajorAxis * math.sin(currentAngle)
-
-		# Update trail
-		if trailLength > 0:
-			self.trails.append([self.x, self.y])
-			if self.trails.__len__() > trailLength:
-				self.trails.pop(0)
-		else:
-			self.trails = []
