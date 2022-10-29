@@ -1,15 +1,9 @@
 import imgui
 from imgui.integrations.glfw import GlfwRenderer
-import glfw
 import OpenGL.GL as gl
-import datetime
-
-import date
 
 class InputWindow:
 	def __init__(self):
-		self.dateCollapseVisible = True
-		self.dateCollapseVisible = True
 		self.objectCollapseVisible = True
 		self.animationCollapseVisible = True
 		self.renderingCollapseVisible = True
@@ -19,38 +13,6 @@ class InputWindow:
 		# ImGui window for configuration
 		imgui.begin("Configuration")
 
-		# Collapsing header for date
-		expanded, self.dateCollapseVisible = imgui.collapsing_header("Date", True)
-		if expanded:
-			todayButton = imgui.button("Today")
-			if todayButton:
-				currentTime = datetime.datetime.now()
-				system.date = date.Date()
-
-			# Date input
-			_, system.date.day = imgui.input_int("Day", system.date.day)
-			_, system.date.month = imgui.input_int("Month", system.date.month)
-			_, system.date.year = imgui.input_int("Year", system.date.year)
-
-			# Date validation
-			system.date.purge()
-
-		# Collapsing header for time
-		expanded, dateCollapseVisible = imgui.collapsing_header("Time", True)
-		if expanded:
-			nowButton = imgui.button("Now")
-			if nowButton:
-				currentTime = datetime.datetime.now()
-				system.date = date.Date()
-
-			# Time input
-			_, system.date.hour = imgui.input_int("Hour", system.date.hour)
-			_, system.date.minute = imgui.input_int("Minute", system.date.minute)
-			_, system.date.second = imgui.input_int("Second", system.date.second)
-
-			# Time validation
-			system.date.purge()
-		
 		# Collapsing header for objects
 		expanded, self.objectCollapseVisible = imgui.collapsing_header("System", True)
 		if expanded:
@@ -62,13 +24,17 @@ class InputWindow:
 					imgui.same_line()
 					imgui.spacing()
 					imgui.same_line()
-					imgui.button(">", 20, 20)
+					imgui.button("Style")
 					if imgui.is_item_clicked():
-							imgui.open_popup(key.name)
+						imgui.open_popup("Style-" + key.name)
+					imgui.same_line()
+					imgui.button("Physics")
+					if imgui.is_item_clicked():
+						imgui.open_popup("Physics-" + key.name)
 
 					# Popup for customisation
-					if imgui.begin_popup(key.name):
-						imgui.text("Customising " + key.name)
+					if imgui.begin_popup("Style-" + key.name):
+						imgui.text("Customising " + key.name + " style")
 						_, key.radius = imgui.input_float("Radius (km)", key.radius)
 						_, key.color = imgui.color_edit3(
 							"Color",
@@ -76,6 +42,18 @@ class InputWindow:
 							key.color[1],
 							key.color[2],
 						)
+						imgui.end_popup()
+
+					# Popup for physics
+					if imgui.begin_popup("Physics-" + key.name):
+						imgui.text("Customising " + key.name + " physics")
+						_, key.mass = imgui.input_float("Mass (kg)", key.mass)
+						_, key.position[0] = imgui.input_float("X position (km)", key.position[0])
+						_, key.position[1] = imgui.input_float("Y position (km)", key.position[1])
+						_, key.velocity[0] = imgui.input_float("X velocity (km/s)", key.velocity[0])
+						_, key.velocity[1] = imgui.input_float("Y velocity (km/s)", key.velocity[1])
+						_, key.acceleration[0] = imgui.input_float("X acceleration (km/s^2)", key.acceleration[0])
+						_, key.acceleration[1] = imgui.input_float("Y acceleration (km/s^2)", key.acceleration[1])
 						imgui.end_popup()
 
 		# Collapsing header for animation
