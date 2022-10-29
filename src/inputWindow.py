@@ -35,7 +35,7 @@ class InputWindow:
 					# Popup for customisation
 					if imgui.begin_popup("Style-" + key.name):
 						imgui.text("Customising " + key.name + " style")
-						_, key.radius = imgui.input_float("Radius (km)", key.radius)
+						_, key.radius = imgui.drag_float("Radius (m)", key.radius)
 						_, key.color = imgui.color_edit3(
 							"Color",
 							key.color[0],
@@ -48,19 +48,19 @@ class InputWindow:
 					if imgui.begin_popup("Physics-" + key.name):
 						imgui.text("Customising " + key.name + " physics")
 						_, key.mass = imgui.input_float("Mass (kg)", key.mass)
-						_, key.position[0] = imgui.input_float("X position (km)", key.position[0])
-						_, key.position[1] = imgui.input_float("Y position (km)", key.position[1])
-						_, key.velocity[0] = imgui.input_float("X velocity (km/s)", key.velocity[0])
-						_, key.velocity[1] = imgui.input_float("Y velocity (km/s)", key.velocity[1])
-						_, key.acceleration[0] = imgui.input_float("X acceleration (km/s^2)", key.acceleration[0])
-						_, key.acceleration[1] = imgui.input_float("Y acceleration (km/s^2)", key.acceleration[1])
+						_, key.position[0] = imgui.input_float("X position (m)", key.position[0])
+						_, key.position[1] = imgui.input_float("Y position (m)", key.position[1])
+						_, key.velocity[0] = imgui.input_float("X velocity (m/s)", key.velocity[0])
+						_, key.velocity[1] = imgui.input_float("Y velocity (m/s)", key.velocity[1])
+						_, key.acceleration[0] = imgui.input_float("X acceleration (m/s²)", key.acceleration[0])
+						_, key.acceleration[1] = imgui.input_float("Y acceleration (m/s²)", key.acceleration[1])
 						imgui.end_popup()
 
 		# Collapsing header for animation
 		expanded, self.animationCollapseVisible = imgui.collapsing_header("Animation", True)
 		if expanded:
 			# Time scale input
-			_, system.timeScale = imgui.drag_float("Time scale", system.timeScale, 1, 0.0, 1000.0)
+			_, system.timeScale = imgui.drag_float("Time scale", system.timeScale, 1, 0.0, 100.0)
 
 		# Collapsing header for rendering
 		expanded, self.renderingCollapseVisible = imgui.collapsing_header("Rendering", True)

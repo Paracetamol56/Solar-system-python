@@ -1,0 +1,90 @@
+[
+	{
+		"name": "Sun",
+		"radius": 6.957e8,
+		"mass": 1.989e30,
+		"color": [0.949, 0.407, 0.145, 1.0],
+		"velocity": [0, 0],
+		"position": [0, 0]
+	},
+	{
+		"name": "Mercury",
+		"radius": 2.4397e6,
+		"mass": 3.30101e23,
+		"color": [0.498, 0.498, 0.498, 1.0],
+		"velocity": [0.0, -5.898e4],
+		"position": [4.6e10, 0]
+	},
+	{
+		"name": "Venus",
+		"radius": 6.0518e6,
+		"mass": 4.8675e24,
+		"color": [0.498, 0.498, 0.498, 1.0],
+		"velocity": [0.0, -3.526e4],
+		"position": [1.0748e11, 0]
+	},
+	{
+		"name": "Earth",
+		"radius": 6.371e6,
+		"mass": 5.972e24,
+		"color": [0.129, 0.180, 0.376, 1.0],
+		"velocity": [0.0, -2.978e4],
+		"position": [1.4959787e11, 0.0]
+	},
+	{
+		"name": "Mars",
+		"radius": 3.3895e6,
+		"mass": 6.4171e23,
+		"color": [0.435, 0.137, 0.078, 1.0],
+		"velocity": [0.0, -2.41e4],
+		"position": [2.2794e11, 0.0]
+	},
+	{
+		"name": "Jupiter",
+		"radius": 6.9911e7,
+		"mass": 1.8986e27,
+		"color": [0.616, 0.576, 0.398, 1.0],
+		"velocity": [0.0, -1.31e4],
+		"position": [7.7857e11, 0.0]
+	},
+	{
+		"name": "Saturn",
+		"radius": 5.8232e7,
+		"mass": 5.6846e26,
+		"color": [0.725, 0.624, 0.475, 1.0],
+		"velocity": [0.0, -9.68e3],
+		"position": [1.43345e12, 0.0]
+	},
+	{
+		"name": "Uranus",
+		"radius": 2.5362e7,
+		"mass": 8.6810e25,
+		"color": [0.667, 0.796, 0.824, 1.0],
+		"velocity": [0.0, -6.81e3],
+		"position": [2.8709722e12, 0.0]
+	},
+	{
+		"name": "Neptune",
+		"radius": 2.4622e7,
+		"mass": 1.0243e26,
+		"color": [0.400, 0.318, 0.635, 1.0],
+		"velocity": [0.0, -5.43e3],
+		"position": [4.498252e12, 0.0]
+	},
+	{
+		"name": "Pluto",
+		"radius": 1.137e6,
+		"mass": 1.303e22,
+		"color": [0.298, 0.314, 0.384, 1.0],
+		"velocity": [0.0, -4.74e3],
+		"position": [5.9064e12, 0.0]
+	},
+	{
+		"name": "Comet",
+		"radius": 5.0e3,
+		"mass": 1.0e5,
+		"color": [1.0, 1.0, 1.0, 1.0],
+		"velocity": [-1.0e4, 0.0],
+		"position": [2.0e12, 5.0e11]
+	}
+]

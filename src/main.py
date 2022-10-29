@@ -2,6 +2,7 @@ import imgui
 from imgui.integrations.glfw import GlfwRenderer
 import glfw
 import OpenGL.GL as gl
+import json
 
 import inputWindow
 import system
@@ -24,11 +25,21 @@ impl = GlfwRenderer(window)
 physicTickPerSecond = 30
 lastPhysicTick = glfw.get_time()
 inputWindow = inputWindow.InputWindow()
-solarSystem = system.System([
-	system.CelestialBody2D("Sun", 6.957e8, 1.989e30, [0.949, 0.407, 0.145, 1], [0.0, 0.0], [0.0, 0.0]),
-	system.CelestialBody2D("Earth", 6.3781e6, 5.972e24, [0.0, 0.0, 1.0, 1], [0.0, -2.978e4], [1.4959787e11, 0.0]),
-	# RIP Pluto
-])
+stellarSystem = system.System()
+filePath = "data/solarSystem.json"
+
+# Initialise the system from the json file
+objects = json.load(open(filePath, "r"))
+for key in objects:
+	newBody = system.CelestialBody2D(
+		key["name"],
+		key["radius"],
+		key["mass"],
+		key["color"],
+		key["velocity"],
+		key["position"],
+	)
+	stellarSystem.addBody(newBody)
 
 # Main loop
 while not glfw.window_should_close(window):
@@ -37,13 +48,13 @@ while not glfw.window_should_close(window):
 
 	# Call solarSystem.fixedUpdate() at a fixed rate
 	if glfw.get_time() - lastPhysicTick > 1 / physicTickPerSecond:
-		solarSystem.fixedUpdate()
+		stellarSystem.fixedUpdate()
 		lastPhysicTick = glfw.get_time()
 
 	imgui.new_frame()
 
-	inputWindow.render(solarSystem)
-	solarSystem.render()
+	inputWindow.render(stellarSystem)
+	stellarSystem.render()
 
 	# Clear the glfw window
 	glfw.make_context_current(window)

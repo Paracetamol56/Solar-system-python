@@ -5,6 +5,17 @@ import math
 
 import constants
 
+# #f26825 to rgb [0.949, 0.407, 0.145, 1.0] Sun
+# #7e7f7f to rgb [0.494, 0.498, 0.498, 1.0] Mercury
+# #a07845 to rgb [0.627, 0.471, 0.271, 1.0] Venus
+# #212d60 to rgb [0.129, 0.180, 0.376, 1.0] Earth
+# #6f2315 to rgb [0.435, 0.137, 0.078, 1.0] Mars
+# #9d9366 to rgb [0.616, 0.576, 0.398, 1.0] Jupiter
+# #b99f7a to rgb [0.725, 0.624, 0.475, 1.0] Saturn
+# #aacbd2 to rgb [0.667, 0.796, 0.824, 1.0] Uranus
+# #6751a2 to rgb [0.400, 0.318, 0.635, 1.0] Neptune
+# #4c5062 to rgb [0.298, 0.314, 0.384, 1.0] Pluto
+
 class System:
 	def __init__(self, objects = []):
 		self.objects = objects
@@ -17,9 +28,10 @@ class System:
 
 		self.meanRadius = 0.0
 
-		for key in self.objects:
-			self.meanRadius += key.radius
-		self.meanRadius /= self.objects.__len__()
+		if self.objects.__len__() > 0:
+			for key in self.objects:
+				self.meanRadius += key.radius
+			self.meanRadius /= self.objects.__len__()
 
 		self.validate()
 
@@ -29,6 +41,17 @@ class System:
 				if self.objects[i].name == self.objects[j].name:
 					print("Error: Duplicate object name: " + self.objects[i].name)
 					exit(1)
+	
+	def addBody(self, body):
+		self.objects.append(body)
+
+		# Update mean radius
+		self.meanRadius = 0.0
+		for key in self.objects:
+			self.meanRadius += key.radius
+		self.meanRadius /= self.objects.__len__()
+
+		self.validate()
 	
 	def fixedUpdate(self):
 		for key in self.objects:
