@@ -25,6 +25,12 @@ class System:
 		self.radiusNormalization = 0.0
 		self.showGrid = False
 		self.gridColor = [0.1, 0.1, 0.1, 1.0]
+		self.showVelocityVectors = False
+		self.velocityVectorLength = 100000
+		self.velocityVectorColor = [1.0, 0.0, 0.0, 1.0]
+		self.showAccelerationVectors = False
+		self.accelerationVectorLength = 100000000
+		self.accelerationVectorColor = [0.0, 1.0, 0.0, 1.0]
 
 		self.meanRadius = 0.0
 
@@ -119,6 +125,10 @@ class System:
 			return
 		
 		for key in self.objects:
+			if self.showVelocityVectors:
+				key.renderVelocityVector(drawList, windowSize, self.systemScale, self.velocityVectorLength, self.velocityVectorColor)
+			if self.showAccelerationVectors:
+				key.renderAccelerationVector(drawList, windowSize, self.systemScale, self.accelerationVectorLength, self.accelerationVectorColor)
 			key.render(drawList, windowSize, self.systemScale, self.radiusScale, self.radiusNormalization, self.meanRadius)
 
 class CelestialBody2D:
@@ -141,6 +151,50 @@ class CelestialBody2D:
 		self.position = position
 		self.acceleration = [0.0, 0.0]
 	
+	def renderVelocityVector(self, drawList, windowSize, systemScale, vectorLength, vectorColor):
+		if not self.visible:
+			return
+
+		systemScale /= constants._M_PER_PIXEL
+		# Draw velocity vector
+		color = imgui.get_color_u32_rgba(
+			vectorColor[0],
+			vectorColor[1],
+			vectorColor[2],
+			vectorColor[3]
+		)
+		drawList.add_line(
+			# Body position
+			windowSize[0] / 2 + self.position[0] * systemScale,
+			windowSize[1] / 2 + self.position[1] * systemScale,
+			# Body position + velocity vector * vectorLength
+			windowSize[0] / 2 + (self.position[0] + self.velocity[0] * vectorLength) * systemScale,
+			windowSize[1] / 2 + (self.position[1] + self.velocity[1] * vectorLength) * systemScale,
+			color
+		)
+
+	def renderAccelerationVector(self, drawList, windowSize, systemScale, vectorLength, vectorColor):
+		if not self.visible:
+			return
+		
+		systemScale /= constants._M_PER_PIXEL
+		# Draw acceleration vector
+		color = imgui.get_color_u32_rgba(
+			vectorColor[0],
+			vectorColor[1],
+			vectorColor[2],
+			vectorColor[3]
+		)
+		drawList.add_line(
+			# Body position
+			windowSize[0] / 2 + self.position[0] * systemScale,
+			windowSize[1] / 2 + self.position[1] * systemScale,
+			# Body position + acceleration vector * vectorLength
+			windowSize[0] / 2 + (self.position[0] + self.acceleration[0] * vectorLength) * systemScale,
+			windowSize[1] / 2 + (self.position[1] + self.acceleration[1] * vectorLength) * systemScale,
+			color
+		)
+
 	def render(self, drawList, windowSize, systemScale, radiusScale, radiusNormalization, meanRadius):
 		if not self.visible:
 			return

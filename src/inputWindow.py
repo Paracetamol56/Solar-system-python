@@ -98,4 +98,34 @@ class InputWindow:
 				system.gridColor[3],
 			)
 
+			# Show velocity vectors checkbox
+			_, system.showVelocityVectors = imgui.checkbox("Show velocity vectors", system.showVelocityVectors)
+			
+			# Velocity vector length input
+			_, system.velocityVectorLength = imgui.drag_int("Velocity vector length", system.velocityVectorLength, 10000, 10000, 5000000)
+
+			# Velocity vector color input
+			_, system.velocityVectorColor = imgui.color_edit4(
+				"Velocity vector color",
+				system.velocityVectorColor[0],
+				system.velocityVectorColor[1],
+				system.velocityVectorColor[2],
+				system.velocityVectorColor[3],
+			)
+
+			# Acceleration vector checkbox
+			_, system.showAccelerationVectors = imgui.checkbox("Show acceleration vectors", system.showAccelerationVectors)
+
+			# Acceleration vector length input
+			_, system.accelerationVectorLength = imgui.drag_int("Acceleration vector length", system.accelerationVectorLength, 100000000, 100000000, 1000000000)
+
+			# Acceleration vector color input
+			_, system.accelerationVectorColor = imgui.color_edit4(
+				"Acceleration vector color",
+				system.accelerationVectorColor[0],
+				system.accelerationVectorColor[1],
+				system.accelerationVectorColor[2],
+				system.accelerationVectorColor[3],
+			)
+
 		imgui.end()
