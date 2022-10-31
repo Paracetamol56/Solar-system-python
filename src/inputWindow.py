@@ -14,7 +14,7 @@ class InputWindow:
 		imgui.begin("Configuration")
 
 		# Collapsing header for objects
-		expanded, self.objectCollapseVisible = imgui.collapsing_header("System", True)
+		expanded, self.objectCollapseVisible = imgui.collapsing_header("System")
 		if expanded:
 			# Objects checkbox
 			for key in system.objects:
@@ -57,13 +57,13 @@ class InputWindow:
 						imgui.end_popup()
 
 		# Collapsing header for animation
-		expanded, self.animationCollapseVisible = imgui.collapsing_header("Animation", True)
+		expanded, self.animationCollapseVisible = imgui.collapsing_header("Animation")
 		if expanded:
 			# Time scale input
 			_, system.timeScale = imgui.drag_float("Time scale", system.timeScale, 1, 0.0, 100.0)
 
 		# Collapsing header for rendering
-		expanded, self.renderingCollapseVisible = imgui.collapsing_header("Rendering", True)
+		expanded, self.renderingCollapseVisible = imgui.collapsing_header("Rendering")
 		if expanded:
 			# System scale input
 			_, system.systemScale = imgui.drag_float("System scale", system.systemScale, 0.01, 0.01, 10.0)
@@ -84,6 +84,9 @@ class InputWindow:
 				self.backgroundColor[2],
 			)
 
+			imgui.begin_child("Grid", 0, 76, True)
+			imgui.text("Grid")
+
 			# Show grig checkbox
 			_, system.showGrid = imgui.checkbox("Show grid", system.showGrid)
 			if imgui.is_item_hovered():
@@ -97,6 +100,10 @@ class InputWindow:
 				system.gridColor[2],
 				system.gridColor[3],
 			)
+
+			imgui.end_child()
+			imgui.begin_child("Trails", 0, 122, True)
+			imgui.text("Trails")
 
 			# Show trails checkbox
 			_, system.showTrails = imgui.checkbox("Show trails", system.showTrails)
@@ -116,34 +123,44 @@ class InputWindow:
 			# Trails resolution input
 			_, system.trailsResolution = imgui.drag_int("Trails resolution", system.trailsResolution, 1, 1, 100)
 
+			imgui.end_child()
+			imgui.begin_child("Velocity vectors", 0, 99, True)
+			imgui.text("Velocity vectors")
+
 			# Show velocity vectors checkbox
 			_, system.showVelocityVectors = imgui.checkbox("Show velocity vectors", system.showVelocityVectors)
 			
 			# Velocity vector length input
-			_, system.velocityVectorLength = imgui.drag_int("Velocity vector length", system.velocityVectorLength, 10000, 10000, 5000000)
+			_, system.velocityVectorLength = imgui.drag_int("Velocity vectors length", system.velocityVectorLength, 10000, 10000, 5000000)
 
 			# Velocity vector color input
 			_, system.velocityVectorColor = imgui.color_edit4(
-				"Velocity vector color",
+				"Velocity vectors color",
 				system.velocityVectorColor[0],
 				system.velocityVectorColor[1],
 				system.velocityVectorColor[2],
 				system.velocityVectorColor[3],
 			)
 
+			imgui.end_child()
+			imgui.begin_child("Acceleration vectors", 0, 99, True)
+			imgui.text("Acceleration vectors")
+
 			# Acceleration vector checkbox
 			_, system.showAccelerationVectors = imgui.checkbox("Show acceleration vectors", system.showAccelerationVectors)
 
 			# Acceleration vector length input
-			_, system.accelerationVectorLength = imgui.drag_int("Acceleration vector length", system.accelerationVectorLength, 100000000, 100000000, 1000000000)
+			_, system.accelerationVectorLength = imgui.drag_int("Acceleration vectors length", system.accelerationVectorLength, 100000000, 100000000, 1000000000)
 
 			# Acceleration vector color input
 			_, system.accelerationVectorColor = imgui.color_edit4(
-				"Acceleration vector color",
+				"Acceleration vectors color",
 				system.accelerationVectorColor[0],
 				system.accelerationVectorColor[1],
 				system.accelerationVectorColor[2],
 				system.accelerationVectorColor[3],
 			)
+
+			imgui.end_child()
 
 		imgui.end()

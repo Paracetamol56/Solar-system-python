@@ -6,6 +6,7 @@ import json
 
 import inputWindow
 import system
+import celestialBody
 
 # Setup window with glfw
 glfw.init()
@@ -31,7 +32,7 @@ filePath = "data/solarSystem.json"
 # Initialise the system from the json file
 objects = json.load(open(filePath, "r"))
 for key in objects:
-	newBody = system.CelestialBody2D(
+	newBody = celestialBody.CelestialBody2D(
 		key["name"],
 		key["radius"],
 		key["mass"],
