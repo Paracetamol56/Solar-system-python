@@ -98,6 +98,24 @@ class InputWindow:
 				system.gridColor[3],
 			)
 
+			# Show trails checkbox
+			_, system.showTrails = imgui.checkbox("Show trails", system.showTrails)
+			
+			# Trails color input
+			_, system.trailsColor = imgui.color_edit4(
+				"Trails color",
+				system.trailsColor[0],
+				system.trailsColor[1],
+				system.trailsColor[2],
+				system.trailsColor[3],
+			)
+
+			# Trails length input
+			_, system.trailsLength = imgui.drag_int("Trails length", system.trailsLength, 1, 10, 1000)
+
+			# Trails resolution input
+			_, system.trailsResolution = imgui.drag_int("Trails resolution", system.trailsResolution, 1, 1, 100)
+
 			# Show velocity vectors checkbox
 			_, system.showVelocityVectors = imgui.checkbox("Show velocity vectors", system.showVelocityVectors)
 			

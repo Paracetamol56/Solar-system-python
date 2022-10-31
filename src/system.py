@@ -4,17 +4,7 @@ import glfw
 import math
 
 import constants
-
-# #f26825 to rgb [0.949, 0.407, 0.145, 1.0] Sun
-# #7e7f7f to rgb [0.494, 0.498, 0.498, 1.0] Mercury
-# #a07845 to rgb [0.627, 0.471, 0.271, 1.0] Venus
-# #212d60 to rgb [0.129, 0.180, 0.376, 1.0] Earth
-# #6f2315 to rgb [0.435, 0.137, 0.078, 1.0] Mars
-# #9d9366 to rgb [0.616, 0.576, 0.398, 1.0] Jupiter
-# #b99f7a to rgb [0.725, 0.624, 0.475, 1.0] Saturn
-# #aacbd2 to rgb [0.667, 0.796, 0.824, 1.0] Uranus
-# #6751a2 to rgb [0.400, 0.318, 0.635, 1.0] Neptune
-# #4c5062 to rgb [0.298, 0.314, 0.384, 1.0] Pluto
+import circularBuffer
 
 class System:
 	def __init__(self, objects = []):
@@ -23,6 +13,11 @@ class System:
 		self.systemScale = 1.0
 		self.radiusScale = 1.0
 		self.radiusNormalization = 0.0
+		self.showTrails = True
+		self.trailsLength = 100
+		self.trailsColor = [1.0, 1.0, 1.0, 1.0]
+		self.trailsResolution = 4
+		self.trailsStep = 0
 		self.showGrid = False
 		self.gridColor = [0.1, 0.1, 0.1, 1.0]
 		self.showVelocityVectors = False
@@ -86,10 +81,18 @@ class System:
 			# Compute object velocity
 			key.velocity[0] += key.acceleration[0] * self.timeScale
 			key.velocity[1] += key.acceleration[1] * self.timeScale
-			
+
 			# Update object position
 			key.position[0] += key.velocity[0] * self.timeScale * 1000
 			key.position[1] += key.velocity[1] * self.timeScale * 1000
+
+			# Pushthe new position to the trail buffer
+			if self.showTrails:
+				if self.trailsStep >= self.trailsResolution:
+					key.trail.push([key.position[0], key.position[1]])
+					self.trailsStep = 0
+				else:
+					self.trailsStep += 1
 
 	def render(self):
 		imgui.set_cursor_pos([0, 0])
@@ -125,6 +128,8 @@ class System:
 			return
 		
 		for key in self.objects:
+			if self.showTrails:
+				key.renderTrails(drawList, windowSize, self.systemScale, self.trailsColor, self.trailsLength)
 			if self.showVelocityVectors:
 				key.renderVelocityVector(drawList, windowSize, self.systemScale, self.velocityVectorLength, self.velocityVectorColor)
 			if self.showAccelerationVectors:
@@ -150,7 +155,34 @@ class CelestialBody2D:
 		self.velocity = velocity
 		self.position = position
 		self.acceleration = [0.0, 0.0]
+		self.trail = circularBuffer.CircularBuffer(100)
 	
+	def renderTrails(self, drawList, windowSize, systemScale, trailsColor, trailsLength):
+		if self.trail.__len__() < 2:
+			return
+		if trailsLength != self.trail.size:
+			self.trail.resize(trailsLength)
+		
+		systemScale /= constants._M_PER_PIXEL
+
+		color = imgui.get_color_u32_rgba(
+			trailsColor[0],
+			trailsColor[1],
+			trailsColor[2],
+			trailsColor[3]
+		)
+
+		for i in range(0, self.trail.__len__() -2):
+			if self.trail[i] == None or self.trail[i + 1] == None:
+				continue
+			drawList.add_line(
+				windowSize[0] // 2 + self.trail[i][0] * systemScale,
+				windowSize[1] // 2 + self.trail[i][1] * systemScale,
+				windowSize[0] // 2 + self.trail[i + 1][0] * systemScale,
+				windowSize[1] // 2 + self.trail[i + 1][1] * systemScale,
+				color
+			)
+
 	def renderVelocityVector(self, drawList, windowSize, systemScale, vectorLength, vectorColor):
 		if not self.visible:
 			return
