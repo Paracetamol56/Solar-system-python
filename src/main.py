@@ -29,9 +29,9 @@ lastPhysicTick = glfw.get_time()
 configWindow = configWindow.ConfigWindow()
 performanceProfiler = performanceProfiler.PerformanceProfiler(window)
 stellarSystem = system.System()
-# filePath = "data/solarSystem.json"
+filePath = "data/solarSystem.json"
 # filePath = "data/binaryStars.json"
-filePath = "data/tatooSystem.json"
+# filePath = "data/tatooSystem.json"
 
 # Initialise the system from the json file
 objects = json.load(open(filePath, "r"))
