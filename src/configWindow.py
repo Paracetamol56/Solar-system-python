@@ -1,8 +1,6 @@
 import imgui
-from imgui.integrations.glfw import GlfwRenderer
-import OpenGL.GL as gl
 
-class InputWindow:
+class ConfigWindow:
 	def __init__(self):
 		self.objectCollapseVisible = True
 		self.animationCollapseVisible = True

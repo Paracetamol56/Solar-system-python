@@ -4,7 +4,8 @@ import glfw
 import OpenGL.GL as gl
 import json
 
-import inputWindow
+import configWindow
+import performanceProfiler
 import system
 import celestialBody
 
@@ -25,7 +26,8 @@ impl = GlfwRenderer(window)
 # Global variables
 physicTickPerSecond = 30
 lastPhysicTick = glfw.get_time()
-inputWindow = inputWindow.InputWindow()
+configWindow = configWindow.ConfigWindow()
+performanceProfiler = performanceProfiler.PerformanceProfiler(window)
 stellarSystem = system.System()
 filePath = "data/solarSystem.json"
 
@@ -50,19 +52,21 @@ while not glfw.window_should_close(window):
 	# Call solarSystem.fixedUpdate() at a fixed rate
 	if glfw.get_time() - lastPhysicTick > 1 / physicTickPerSecond:
 		stellarSystem.fixedUpdate()
+		performanceProfiler.fixedUpdate()
 		lastPhysicTick = glfw.get_time()
 
 	imgui.new_frame()
 
-	inputWindow.render(stellarSystem)
+	configWindow.render(stellarSystem)
+	performanceProfiler.render()
 	stellarSystem.render()
 
 	# Clear the glfw window
 	glfw.make_context_current(window)
 	gl.glClearColor(
-		inputWindow.backgroundColor[0],
-		inputWindow.backgroundColor[1],
-		inputWindow.backgroundColor[2],
+		configWindow.backgroundColor[0],
+		configWindow.backgroundColor[1],
+		configWindow.backgroundColor[2],
 		1
 	)
 	gl.glClear(gl.GL_COLOR_BUFFER_BIT)

@@ -21,7 +21,27 @@ class CircularBuffer:
 		return (self.head - self.tail) % self.size
 	
 	def __getitem__(self, index):
-		return self.buffer[(self.tail + index) % self.__len__()]
+		return self.buffer[(self.tail + index) % self.size]
+
+	def sum(self):
+		sum = 0
+		for i in range(len(self)):
+			sum += self[i]
+		return sum
+
+	def min(self):
+		min = self[0]
+		for i in range(len(self)):
+			if self[i] < min:
+				min = self[i]
+		return min
+	
+	def max(self):
+		max = self[0]
+		for i in range(len(self)):
+			if self[i] > max:
+				max = self[i]
+		return max
 
 	def resize(self, size):
 		self.size = size

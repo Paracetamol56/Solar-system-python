@@ -3,7 +3,6 @@ import glfw
 import math
 
 import constants
-
 class System:
 	def __init__(self, objects = []):
 		self.objects = objects
@@ -13,7 +12,7 @@ class System:
 		self.radiusNormalization = 0.0
 		self.showTrails = True
 		self.trailsLength = 100
-		self.trailsColor = [1.0, 1.0, 1.0, 1.0]
+		self.trailsColor = [0.039, 0.262, 0.509, 0.51]
 		self.trailsResolution = 4
 		self.trailsStep = 0
 		self.showGrid = False
