@@ -1,0 +1,42 @@
+[
+	{
+		"name": "Tatoo I",
+		"radius": 3e9,
+		"mass": 6e30,
+		"color": [0.929, 0.815, 0.443, 1.0],
+		"velocity": [0.0, 2e4],
+		"position": [0.0, 0.0]
+	},
+	{
+		"name": "Tatoo II",
+		"radius": 7e8,
+		"mass": 1.5e30,
+		"color": [0.949, 0.313, 0.207, 1.0],
+		"velocity": [0.0, -8e4],
+		"position": [5e10, 0.0]
+	},
+	{
+		"name": "Tatooine",
+		"radius": 6.5e6,
+		"mass": 1e26,
+		"color": [0.749, 0.643, 0.568, 1.0],
+		"velocity": [0.0, -6.8e4],
+		"position": [1.3e11, 0.0]
+	},
+	{
+		"name": "Ohann",
+		"radius": 2.5e7,
+		"mass": 1.5e27,
+		"color": [0.380, 0.467, 0.745, 1.0],
+		"velocity": [0.0, -3.7e4],
+		"position": [4e11, 0.0]
+	},
+	{
+		"name": "Adriana",
+		"radius": 5.8e7,
+		"mass": 2e27,
+		"color": [0.616, 0.576, 0.398, 1.0],
+		"velocity": [0.0, -2.75e4],
+		"position": [7e11, 0.0]
+	}
+]
