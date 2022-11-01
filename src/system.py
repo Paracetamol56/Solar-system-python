@@ -79,6 +79,7 @@ class System:
 			key.velocity[0] += key.acceleration[0] * self.timeScale
 			key.velocity[1] += key.acceleration[1] * self.timeScale
 
+		for key in self.objects:
 			# Update object position
 			key.position[0] += key.velocity[0] * self.timeScale * 1000
 			key.position[1] += key.velocity[1] * self.timeScale * 1000

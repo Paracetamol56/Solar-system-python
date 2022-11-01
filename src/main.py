@@ -30,6 +30,7 @@ configWindow = configWindow.ConfigWindow()
 performanceProfiler = performanceProfiler.PerformanceProfiler(window)
 stellarSystem = system.System()
 filePath = "data/solarSystem.json"
+filePath = "data/binaryStars.json"
 
 # Initialise the system from the json file
 objects = json.load(open(filePath, "r"))
